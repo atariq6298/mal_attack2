@@ -17,7 +17,7 @@ class Cnn:
         X_train, X_test, y_train, y_test = dataset
 
         # plot the first image in the dataset
-        plt.imshow(X_train[0])
+        #plt.imshow(X_train[0])
         train_rows, train_x, train_y = X_train.shape
 
         text_rows, test_x, test_y = X_test.shape
@@ -47,9 +47,10 @@ class Cnn:
         model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=10)
 
         # show predictions for the first 3 images in the test set
-        model.predict(X_test[:4])
+        # model.predict(X_test[:4])
         prediction = np.argmax(model.predict(X_test), axis=1)
         y_test = np.argmax(y_test, axis=1)
+        print("CNN Results Start ---------------------------")
         print('\n Accuracy: ')
         print(accuracy_score(y_test, prediction))
         print('\n F1 score: ')
@@ -60,5 +61,7 @@ class Cnn:
         print(precision_score(y_test, prediction))
         print('\n confusion matrix: \n')
         print(confusion_matrix(y_test, prediction))
+        print("CNN Results End ---------------------------")
         self.model = model
         self.prediction = prediction
+        self.prob = model.predict(X_test)

@@ -49,6 +49,27 @@ def read_file(filename, y_out):
     x = pd.DataFrame(scaled_df)
     return x
 
+def next_day_data():
+    nClasses = 2
+
+
+    new_x = pd.DataFrame()
+    temp_y = []
+
+    for f in test_files:
+        print('Processing file ' + f + '\n')
+        new_x = new_x.append(read_file(test_dir + f, temp_y))
+        print('Processed file ' + f + ' , total samples is ' + str(len(temp_y)) + '\n')
+
+    new_y = to_categorical(temp_y, num_classes=nClasses)
+
+    xTrain, xTest, yTrain, yTest = train_test_split(new_x, new_y, test_size=0.2, random_state=42)
+
+    print('train size: ', xTrain.shape)
+    print('train labels: ', yTrain.shape)
+    #return xTrain, xTest, yTrain, yTest
+    return new_x, new_y
+
 def dataset():
     nClasses = 2
 
@@ -67,8 +88,8 @@ def dataset():
 
     print('train size: ', xTrain.shape)
     print('train labels: ', yTrain.shape)
-    return xTrain, xTest, yTrain, yTest
-
+    #return xTrain, xTest, yTrain, yTest
+    return new_x, new_y
 
 def convert_vector_to_image_matrix(x):
     rows, columns = x.shape
@@ -80,11 +101,8 @@ def convert_vector_to_image_matrix(x):
     return x_matrix_train
 
 
-def matrix_dataset(p_dataset=None):
-    if p_dataset is None:
-        xtrain, xtest, ytrain, ytest = dataset()
-    else:
-        xtrain, xtest, ytrain, ytest = p_dataset
+def matrix_dataset(p_dataset):
+    xtrain, xtest, ytrain, ytest = p_dataset
     print(xtrain.shape)
     print(xtest.shape)
     print(ytrain.shape)

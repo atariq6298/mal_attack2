@@ -19,9 +19,10 @@ class Dt:
         y_pred = model.predict(X_test)
 
         # show predictions for the first 3 images in the test set
-        model.predict(X_test[:4])
+        # model.predict(X_test[:4])
         prediction = np.argmax(model.predict(X_test), axis=1)
         y_test = np.argmax(y_test, axis=1)
+        print("DT Results Start ---------------------------")
         print('\n Accuracy: ')
         print(accuracy_score(y_test, prediction))
         print('\n F1 score: ')
@@ -32,5 +33,7 @@ class Dt:
         print(precision_score(y_test, prediction))
         print('\n confusion matrix: \n')
         print(confusion_matrix(y_test, prediction))
+        print("DT Results End ---------------------------")
         self.model = model
         self.prediction = prediction
+        self.prob = model.predict(X_test)
